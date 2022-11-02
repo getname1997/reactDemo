@@ -9,6 +9,14 @@ export default defineConfig({
   layout: {
     title: '人事系统',
   },
+  /**
+   * UMI_ENV 为环境变量，可通过 .env 修改
+   *
+   * */
+  define: {
+    'process.env.UMI_ENV': process.env.UMI_ENV,
+  },
+  hash: true,
   routes: [
     {
       name: '登入页',

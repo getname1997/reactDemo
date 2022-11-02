@@ -30,9 +30,10 @@ service.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401) {
-      window.postMessage(
-        JSON.stringify({ code: 401, data: {}, message: 'token过期' }),
-      );
+      message.warn('token过期');
+      // window.postMessage(
+      //   JSON.stringify({ code: 401, data: {}, message: 'token过期' }),
+      // );
     }
     return Promise.reject(error);
   },

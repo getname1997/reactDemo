@@ -6,7 +6,6 @@ import {
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { message, Tabs } from 'antd';
 import styles from './index.less';
-import { history } from 'umi';
 type loginForm = {
   username: string;
   password: string;
@@ -18,9 +17,9 @@ import nengchengSvg from '@/assets/img/img.png';
 const HomePage: React.FC = () => {
   const [loginType, setLoginType] = useState<LoginType>('account');
   const onSubmit = async (data: Record<string, loginForm>) => {
-    console.log(data, 555);
+    console.log(data, process.env, 555);
     message.success('登录成功');
-    history.push('/');
+    // history.push('/');
     return true;
   };
   return (

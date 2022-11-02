@@ -33,7 +33,7 @@ export const layout = () => {
             // // 不展示页脚
             // footerRender: false,
             // 不展示菜单
-            // menuRender: false,
+            menuRender: false,
             // 隐藏自己和子菜单
             hideInMenu: true,
             component: './login',
