@@ -13,13 +13,23 @@ type loginForm = {
 };
 type LoginType = 'phone' | 'account';
 import React, { useState } from 'react';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 import nengchengSvg from '@/assets/img/img.png';
 const HomePage: React.FC = () => {
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { name, setName } = useModel('global');
   const [loginType, setLoginType] = useState<LoginType>('account');
-  const onSubmit = async (data: Record<string, loginForm>) => {
-    console.log(data, process.env, 555);
+  const onSubmit = async (data: loginForm) => {
+    setName(data.username);
+    console.log(data, process.env, 555, name);
     message.success('登录成功');
+    setInitialState(() => {
+      return {
+        ...initialState,
+        name: '123',
+        six: '男',
+      };
+    });
     history.push('/');
     return true;
   };

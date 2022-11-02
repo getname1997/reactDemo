@@ -5,6 +5,7 @@ import { history } from '@@/core/history';
 // import Header from "@/components/header";
 
 export async function getInitialState(): Promise<{ name: string }> {
+  console.log('getInitialState');
   return { name: 'admin' };
 }
 import './app.less';
