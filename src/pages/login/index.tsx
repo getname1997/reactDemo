@@ -13,13 +13,14 @@ type loginForm = {
 };
 type LoginType = 'phone' | 'account';
 import React, { useState } from 'react';
+import { history } from 'umi';
 import nengchengSvg from '@/assets/img/img.png';
 const HomePage: React.FC = () => {
   const [loginType, setLoginType] = useState<LoginType>('account');
   const onSubmit = async (data: Record<string, loginForm>) => {
     console.log(data, process.env, 555);
     message.success('登录成功');
-    // history.push('/');
+    history.push('/');
     return true;
   };
   return (
