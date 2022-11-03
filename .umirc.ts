@@ -38,9 +38,25 @@ export default defineConfig({
       redirect: '/home',
     },
     {
+      path: '/home',
+      redirect: '/home/workbench',
+    },
+    {
       name: '首页',
       path: '/home',
       component: './Home',
+      routes: [
+        {
+          name: '工作台',
+          path: '/home/workbench',
+          component: './Home/workbench/WorkBench',
+        },
+        {
+          name: '日程待办',
+          path: '/home/schedule',
+          component: './Home/schedule/Schedule',
+        },
+      ],
     },
     {
       path: '/access/sub-page1',

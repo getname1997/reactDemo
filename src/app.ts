@@ -3,7 +3,7 @@
 // 更多信息见文档：https://next.umijs.org/docs/api/runtime-config#getinitialstate
 import { history } from '@@/core/history';
 // import Header from "@/components/header";
-
+import ActionsRender from '@/components/ActionsRender';
 export async function getInitialState(): Promise<{ name: string }> {
   console.log('getInitialState');
   return { name: 'admin' };
@@ -17,12 +17,15 @@ export const layout = () => {
       history.push('/login');
       console.log('initialState 退出了', initialState);
     },
+    actionsRender: ActionsRender,
+    // fixSiderbar: true,
+    splitMenus: true,
     // headerRender:Header,
     layout: 'mix',
     menu: {
+      type: 'group',
       locale: false,
       request: async () => {
-        console.log('请求菜单');
         return [
           {
             name: '登入页',
@@ -40,13 +43,18 @@ export const layout = () => {
             component: './login',
           },
           {
-            path: '/',
-            redirect: '/home',
-          },
-          {
-            name: '首页',
+            name: '主页',
             path: '/home',
-            component: './Home',
+            routes: [
+              {
+                path: '/home/workbench',
+                name: '工作台',
+              },
+              {
+                path: '/home/schedule',
+                name: '日程待办',
+              },
+            ],
           },
           {
             name: '权限演示',
@@ -61,7 +69,6 @@ export const layout = () => {
           {
             name: ' CRUD 示例',
             path: '/table',
-            component: './Table',
           },
         ];
       },
