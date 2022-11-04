@@ -1,6 +1,6 @@
 import request from '@/request/request';
 import type { Config } from './type';
-
+import api from '@/request/api';
 const server = (url: string, param?: any, method = 'get') => {
   let config: Config = {
     url,
@@ -14,4 +14,4 @@ const server = (url: string, param?: any, method = 'get') => {
   return request(config);
 };
 
-export default server;
+export { server, api };

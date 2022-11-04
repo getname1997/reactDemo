@@ -1,17 +1,23 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import commonStorage from '@/utils/commonStorage';
 import { message } from 'antd';
 const service = axios.create({
-  baseURL: '/',
+  baseURL: process.env.FLUTTER_STORAGE_BASE_URL,
   timeout: 20000,
   headers: { 'Content-Type': 'application/json' },
 });
 // 请求拦截
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
+    console.log(config);
+    if (config.url === '/Login/Login') {
+      return config;
+    }
     // 添加token
     if (commonStorage.get('token')) {
-      // (config.headers as AxiosRequestHeaders).Authorization= commonStorage.get('token') as string
+      (config.headers as AxiosRequestHeaders).Authorization = commonStorage.get(
+        'token',
+      ) as string;
     } else {
       // 返回登入页 + 报错
       message.error('没有携带token');

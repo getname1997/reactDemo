@@ -4,23 +4,24 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { message, Tabs } from 'antd';
+import { message } from 'antd';
 import styles from './index.less';
-type loginForm = {
-  username: string;
-  password: string;
-  autoLogin: boolean;
-};
-type LoginType = 'phone' | 'account';
+import type { LoginType, loginForm } from './type';
 import React, { useState } from 'react';
 import { history, useModel } from 'umi';
+import { server, api } from '@/request/server';
+import commonStorage from '@/utils/commonStorage';
 import nengchengSvg from '@/assets/img/img.png';
 const HomePage: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const { name, setName } = useModel('global');
-  const [loginType, setLoginType] = useState<LoginType>('account');
+  const [loginType] = useState<LoginType>('account');
   const onSubmit = async (data: loginForm) => {
-    setName(data.username);
+    server(api.login, data, 'post').then((res) => {
+      console.log(res);
+      commonStorage.set('token', res.Data.Token);
+    });
+    setName(data.loginName);
     console.log(data, process.env, 555, name);
     message.success('登录成功');
     setInitialState(() => {
@@ -42,17 +43,10 @@ const HomePage: React.FC = () => {
           title="能诚人资系统"
           onFinish={onSubmit}
         >
-          <Tabs
-            centered
-            activeKey={loginType}
-            onChange={(activeKey) => setLoginType(activeKey as LoginType)}
-          >
-            <Tabs.TabPane key={'account'} tab={'账号密码登录'} />
-          </Tabs>
           {loginType === 'account' && (
             <>
               <ProFormText
-                name="username"
+                name="loginName"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined className={'prefixIcon'} />,
@@ -66,7 +60,7 @@ const HomePage: React.FC = () => {
                 ]}
               />
               <ProFormText.Password
-                name="password"
+                name="pwd"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined className={'prefixIcon'} />,

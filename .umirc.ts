@@ -15,6 +15,8 @@ export default defineConfig({
    * */
   define: {
     'process.env.UMI_ENV': process.env.UMI_ENV,
+    'process.env.FLUTTER_STORAGE_BASE_URL':
+      process.env.FLUTTER_STORAGE_BASE_URL,
   },
   hash: true,
   routes: [
@@ -75,4 +77,11 @@ export default defineConfig({
     },
   ],
   npmClient: 'pnpm',
+  proxy: {
+    '/planmanage': {
+      target: 'http://10.10.0.123:8088/',
+      changeOrigin: true,
+      // 'pathRewrite': { '^/api' : '' },
+    },
+  },
 });

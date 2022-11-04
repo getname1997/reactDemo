@@ -1,8 +1,13 @@
 interface apiType {
   [name: string]: string;
 }
-/* 存放api */
+const user: apiType = {
+  login: '/Login/Login',
+};
 
-const api: apiType = {};
+/* 存放api */
+const api: apiType = {
+  ...user,
+};
 
 export default api;
