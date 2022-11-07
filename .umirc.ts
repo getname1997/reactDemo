@@ -15,6 +15,7 @@ export default defineConfig({
    * */
   define: {
     'process.env.UMI_ENV': process.env.UMI_ENV,
+
     'process.env.FLUTTER_STORAGE_BASE_URL':
       process.env.FLUTTER_STORAGE_BASE_URL,
   },
