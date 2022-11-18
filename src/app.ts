@@ -11,7 +11,7 @@ export async function getInitialState(): Promise<{ name: string }> {
 import './app.less';
 export const layout = () => {
   return {
-    title: '人事管理系统',
+    title: '博客管理',
     logo: 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg',
     logout: (initialState: any) => {
       history.push('/login');
@@ -56,6 +56,17 @@ export const layout = () => {
               },
             ],
           },
+          {
+            name: '应用模块',
+            path: '/application',
+            routes: [
+              {
+                path: '/application/organization',
+                name: '新建文章',
+              },
+            ],
+          },
+
           {
             name: '权限演示',
             path: '/access',

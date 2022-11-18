@@ -9,7 +9,6 @@ const service = axios.create({
 // 请求拦截
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    console.log(config);
     if (config.url === '/Login/Login') {
       return config;
     }
@@ -37,9 +36,6 @@ service.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       message.warn('token过期');
-      // window.postMessage(
-      //   JSON.stringify({ code: 401, data: {}, message: 'token过期' }),
-      // );
     }
     return Promise.reject(error);
   },

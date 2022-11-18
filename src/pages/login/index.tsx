@@ -19,20 +19,23 @@ const HomePage: React.FC = () => {
   const onSubmit = async (data: loginForm) => {
     server(api.login, data, 'post').then((res) => {
       console.log(res);
-      commonStorage.set('token', res.Data.Token);
+      if (res.Code === '10000') {
+        commonStorage.set('token', res.Data.Token);
+        setName(data.loginName);
+        console.log(data, process.env, 555, name);
+        message.success('登录成功');
+        setInitialState(() => {
+          return {
+            ...initialState,
+            name: '123',
+            six: '男',
+          };
+        });
+
+        history.push('/');
+        return true;
+      }
     });
-    setName(data.loginName);
-    console.log(data, process.env, 555, name);
-    message.success('登录成功');
-    setInitialState(() => {
-      return {
-        ...initialState,
-        name: '123',
-        six: '男',
-      };
-    });
-    history.push('/');
-    return true;
   };
   return (
     <div className={styles.login}>

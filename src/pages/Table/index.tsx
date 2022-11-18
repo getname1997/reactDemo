@@ -4,7 +4,7 @@ import {
   FooterToolbar,
   PageContainer,
   ProDescriptions,
-  ProDescriptionsItemProps,
+  ProColumns,
   ProTable,
 } from '@ant-design/pro-components';
 import { Button, Divider, Drawer, message } from 'antd';
@@ -90,7 +90,7 @@ const TableList: React.FC<unknown> = () => {
   const actionRef = useRef<ActionType>();
   const [row, setRow] = useState<API.UserInfo>();
   const [selectedRowsState, setSelectedRows] = useState<API.UserInfo[]>([]);
-  const columns: ProDescriptionsItemProps<API.UserInfo>[] = [
+  const columns: ProColumns<API.UserInfo>[] = [
     {
       title: '名称',
       dataIndex: 'name',

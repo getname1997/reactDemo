@@ -1,4 +1,4 @@
-// 示例方法，没有实际意义
+// 存储方法
 export function trim(str: string) {
   return str.trim();
 }

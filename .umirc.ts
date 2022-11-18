@@ -17,6 +17,7 @@ export default defineConfig({
     'process.env.UMI_ENV': process.env.UMI_ENV,
     'process.env.FLUTTER_STORAGE_BASE_URL':
       process.env.FLUTTER_STORAGE_BASE_URL,
+    'process.env.DEV_PROXY_API_URL': process.env.DEV_PROXY_API_URL,
   },
   hash: true,
   routes: [
@@ -61,6 +62,18 @@ export default defineConfig({
       ],
     },
     {
+      name: '应用模块',
+      path: '/application',
+      component: './Application',
+      routes: [
+        {
+          name: '组织架构',
+          path: '/application/organization',
+          component: './Application/organization/Organization',
+        },
+      ],
+    },
+    {
       path: '/access/sub-page1',
       name: '一级页面',
       component: './Access',
@@ -78,10 +91,10 @@ export default defineConfig({
   ],
   npmClient: 'pnpm',
   proxy: {
-    '/planmanage': {
-      target: 'http://10.10.0.123:8088/',
+    '/api': {
+      target: process.env.DEV_PROXY_API_URL,
       changeOrigin: true,
-      // 'pathRewrite': { '^/api' : '' },
+      pathRewrite: { '^/api': '' },
     },
   },
 });
