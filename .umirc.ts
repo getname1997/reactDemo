@@ -67,9 +67,14 @@ export default defineConfig({
       component: './Application',
       routes: [
         {
-          name: '组织架构',
+          name: '创建文章',
           path: '/application/organization',
           component: './Application/organization/Organization',
+        },
+        {
+          name: '文章列表',
+          path: '/application/article',
+          component: './Application/Article',
         },
       ],
     },

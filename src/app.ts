@@ -61,6 +61,11 @@ export const layout = () => {
             path: '/application',
             routes: [
               {
+                path: '/application/article',
+                name: '文章管理',
+              },
+
+              {
                 path: '/application/organization',
                 name: '新建文章',
               },

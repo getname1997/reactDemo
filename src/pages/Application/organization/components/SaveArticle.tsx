@@ -1,16 +1,33 @@
 import { Button, Modal, message, Form, Input } from 'antd';
 import React, { useState } from 'react';
 import { server, api } from '@/request/server';
-const SaveArticle: React.FC<{ content: string }> = (props) => {
+import styles from '@/pages/Application/organization/organization.less';
+const SaveArticle: React.FC<{
+  content: string;
+  blogId: number;
+  blogData: any;
+}> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const showModal = () => {
-    console.log(props);
+    if (props.blogId) {
+      console.log(props.blogId, 666);
+      let params = {
+        title: props.blogData.title,
+        author: props.blogData.author,
+        content: props.content,
+        type: 1,
+        id: props.blogId,
+      };
+      server(api.updateArticle, params, 'put').then((res) => {
+        console.log(res);
+      });
+
+      return;
+    }
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
-    message.warn(props.content);
     setIsModalOpen(false);
   };
 
@@ -34,11 +51,27 @@ const SaveArticle: React.FC<{ content: string }> = (props) => {
     });
   };
   const onFinishFailed = () => {};
-
+  const exdown = () => {
+    let uri =
+      'data:application/vnd.ms-excelcharset=utf-8,' +
+      encodeURIComponent(props.content);
+    let link = document.createElement('a');
+    link.href = uri;
+    let myDate = new Date();
+    let time = myDate.toLocaleDateString().split('/').join('-');
+    link.download = '文章' + time + '.md';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <>
       <Button type="primary" onClick={showModal}>
         保存
+      </Button>
+
+      <Button onClick={exdown} className={styles.organization}>
+        导出
       </Button>
       <Modal
         footer={null}
