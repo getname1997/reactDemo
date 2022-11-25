@@ -1,5 +1,5 @@
 type loginForm = {
-  loginName: string;
+  username: string;
   password: string;
   pwd?: string;
   autoLogin: boolean;

@@ -9,7 +9,8 @@ const service = axios.create({
 // 请求拦截
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    if (config.url === '/Login/Login') {
+    console.log('config', config);
+    if (config.url === '/auth/login') {
       return config;
     }
     // 添加token
@@ -35,6 +36,7 @@ service.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401) {
+      commonStorage.remove('token');
       message.warn('token过期');
     }
     return Promise.reject(error);

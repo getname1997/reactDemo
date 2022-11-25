@@ -11,23 +11,22 @@ import React, { useState } from 'react';
 import { history, useModel } from 'umi';
 import { server, api } from '@/request/server';
 import commonStorage from '@/utils/commonStorage';
-import nengchengSvg from '@/assets/img/img.png';
+import nengchengSvg from '@/assets/img/img_2.png';
 const HomePage: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const { name, setName } = useModel('global');
   const [loginType] = useState<LoginType>('account');
   const onSubmit = async (data: loginForm) => {
     server(api.login, data, 'post').then((res) => {
-      console.log(res);
-      if (res.Code === '10000') {
-        commonStorage.set('token', res.Data.Token);
-        setName(data.loginName);
-        console.log(data, process.env, 555, name);
+      if (res.code === 200) {
+        commonStorage.set('token', res.data.token);
+        setName(data.username);
+        console.log(name);
         message.success('登录成功');
         setInitialState(() => {
           return {
             ...initialState,
-            name: '123',
+            name: res.data.avatar,
             six: '男',
           };
         });
@@ -43,13 +42,13 @@ const HomePage: React.FC = () => {
         <LoginForm
           className={styles.loginFormDom}
           logo={nengchengSvg}
-          title="能诚人资系统"
+          title="博客管理"
           onFinish={onSubmit}
         >
           {loginType === 'account' && (
             <>
               <ProFormText
-                name="loginName"
+                name="username"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined className={'prefixIcon'} />,
@@ -63,7 +62,7 @@ const HomePage: React.FC = () => {
                 ]}
               />
               <ProFormText.Password
-                name="pwd"
+                name="password"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined className={'prefixIcon'} />,

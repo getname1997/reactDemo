@@ -1,5 +1,5 @@
 import { Button, Modal, message, Form, Input } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { server, api } from '@/request/server';
 import styles from '@/pages/Application/organization/organization.less';
 const SaveArticle: React.FC<{
@@ -8,22 +8,19 @@ const SaveArticle: React.FC<{
   blogData: any;
 }> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData] = useState({
+    title: '',
+    author: '',
+  });
+  const [form] = Form.useForm();
+  useEffect(() => {
+    form.setFieldsValue({
+      title: props.blogData.title,
+      author: props.blogData.author,
+    });
+  }, [props.blogData]);
   const showModal = () => {
-    if (props.blogId) {
-      console.log(props.blogId, 666);
-      let params = {
-        title: props.blogData.title,
-        author: props.blogData.author,
-        content: props.content,
-        type: 1,
-        id: props.blogId,
-      };
-      server(api.updateArticle, params, 'put').then((res) => {
-        console.log(res);
-      });
-
-      return;
-    }
+    console.log(props.blogData, formData);
     setIsModalOpen(true);
   };
 
@@ -35,17 +32,26 @@ const SaveArticle: React.FC<{
     setIsModalOpen(false);
   };
   const onFinish = (values: { title: string; author: string }) => {
-    let params = {
+    let params: any = {
       title: values.title,
       author: values.author,
       content: props.content,
       type: 1,
+      id: null,
     };
-
+    if (props.blogId) {
+      params.id = props.blogId;
+      server(api.updateArticle, params, 'put').then((res) => {
+        console.log(res);
+        message.success('更新成功');
+        setIsModalOpen(false);
+      });
+      return;
+    }
     server(api.createArticle, params, 'post').then((res) => {
-      console.log(res);
-      if (res.Code === '10000') {
+      if (res.code === 200) {
         message.success('保存成功');
+        setIsModalOpen(false);
         return true;
       }
     });
@@ -75,16 +81,16 @@ const SaveArticle: React.FC<{
       </Button>
       <Modal
         footer={null}
-        title="Basic Modal"
+        title="保存文章"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <Form
           name="保存文章"
+          form={form}
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -107,7 +113,7 @@ const SaveArticle: React.FC<{
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              Submit
+              保存
             </Button>
           </Form.Item>
         </Form>
@@ -115,5 +121,5 @@ const SaveArticle: React.FC<{
     </>
   );
 };
-
+//txdlf@163.com
 export default SaveArticle;

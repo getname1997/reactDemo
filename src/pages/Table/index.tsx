@@ -259,7 +259,7 @@ const TableList: React.FC<unknown> = () => {
             params={{
               id: row?.name,
             }}
-            columns={columns}
+            // columns={columns}
           />
         )}
       </Drawer>
