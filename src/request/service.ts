@@ -15,9 +15,8 @@ service.interceptors.request.use(
     }
     // 添加token
     if (commonStorage.get('token')) {
-      (config.headers as AxiosRequestHeaders).Authorization = commonStorage.get(
-        'token',
-      ) as string;
+      (config.headers as AxiosRequestHeaders).Authorization = ('Bearer ' +
+        commonStorage.get('token')) as string;
     } else {
       // 返回登入页 + 报错
       message.error('没有携带token');
@@ -36,7 +35,7 @@ service.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401) {
-      commonStorage.remove('token');
+      commonStorage.clear('token');
       message.warn('token过期');
     }
     return Promise.reject(error);

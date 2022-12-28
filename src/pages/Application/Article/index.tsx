@@ -20,8 +20,7 @@ type GithubIssueItem = {
 
 const getTableList = async (params: any, dara: any) => {
   console.log(params, dara);
-  let { data } = await server(api.getArticleList);
-  console.log(data);
+  let { data } = await server(api.getBlogList, params, 'post');
   return {
     data: data.list,
     // success 请返回 true，

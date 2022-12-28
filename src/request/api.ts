@@ -6,6 +6,7 @@ const user: apiType = {
 };
 
 const article: apiType = {
+  getBlogList: '/posts/getBlogList',
   createArticle: '/posts/Create', // 创建文章
   getArticleList: '/posts/findAll', // 获取文章列表
   getBlog: '/posts/getBlog', // 获取文章详情
