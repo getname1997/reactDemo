@@ -30,7 +30,7 @@ const EnumerationManagement: React.FC = () => {
 
   return (
     <div className={styles.enumerationManagement}>
-      <div className={styles.enumerationManagementLeft}>
+      <div className={styles.enumerationManagement_Left}>
         <Tabs
           tabPosition="left"
           items={EnumList}
