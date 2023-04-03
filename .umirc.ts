@@ -7,7 +7,7 @@ export default defineConfig({
   initialState: {},
   request: {},
   layout: {
-    title: '人事系统',
+    title: '博客',
   },
   /**
    * UMI_ENV 为环境变量，可通过 .env 修改
@@ -75,6 +75,11 @@ export default defineConfig({
           name: '文章列表',
           path: '/application/article',
           component: './Application/Article',
+        },
+        {
+          name: '枚举管理',
+          path: '/application/EnumerationManagement',
+          component: './EnumerationManagement',
         },
       ],
     },

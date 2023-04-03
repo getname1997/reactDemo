@@ -1,7 +1,4 @@
-// import Guide from '@/components/Guide';
-// import { trim } from '@/utils/format';
 import { SettingDrawer } from '@ant-design/pro-components';
-// import { useModel } from '@umijs/max';
 import type { ProSettings } from '@ant-design/pro-layout';
 // import styles from './index.less';
 import React, { useState } from 'react';

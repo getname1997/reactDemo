@@ -1,6 +1,7 @@
 import { Button, Modal, message, Form, Input } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { server, api } from '@/request/server';
+import request from '@/request/request';
 import styles from '@/pages/Application/organization/organization.less';
 const SaveArticle: React.FC<{
   content: string;
@@ -48,13 +49,32 @@ const SaveArticle: React.FC<{
       });
       return;
     }
-    server(api.createArticle, params, 'post').then((res) => {
-      if (res.code === 200) {
-        message.success('保存成功');
-        setIsModalOpen(false);
-        return true;
-      }
+    let blob = new Blob([props.content], { type: 'application/json' });
+    let file = new File([blob], encodeURI(values.title + '.md'), {
+      type: 'application/json',
     });
+    request({
+      url: api.upload,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: {
+        file,
+        ...params,
+        remarks: '备注',
+      },
+    }).then((res) => {
+      console.log(res, '看看那上次韭菜');
+    });
+
+    // isModalOpen
+    // server(api.createArticle, params, 'post').then((res) => {
+    //   if (res.code === 200) {
+    //     message.success('保存成功');
+    //     setIsModalOpen(false);
+    //     return true;
+    //   }
+    // });
   };
   const onFinishFailed = () => {};
   const exdown = () => {
