@@ -22,6 +22,10 @@ const enumList: apiType = {
   getEnumList: '/enum/getEnumType', // 获取枚举分类列表
   delete: '/enum/deleteType', // 获取枚举分类列表
   updateEnumType: '/enum/updateEnumType', // 更新枚举分类
+  getEnum: '/enum/getEnum', // 根据type获取枚举
+  deleteEnum: '/enum/deleteEnum', // 删除枚举
+  addEnum: '/enum/addEnum', // 添加枚举
+  updateEnum: '/enum/updateEnum', // 更新枚举
 };
 
 /* 存放api */

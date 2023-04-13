@@ -6,7 +6,7 @@ const server = (url: string, param?: any, method = 'get') => {
     url,
     method,
   };
-  if (method === 'get') {
+  if (method === 'get' || method === 'DELETE') {
     config.params = param;
   } else {
     config.data = param;
