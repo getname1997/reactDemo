@@ -42,8 +42,7 @@ const SaveArticle: React.FC<{
     };
     if (props.blogId) {
       params.id = props.blogId;
-      server(api.updateArticle, params, 'put').then((res) => {
-        console.log(res);
+      server(api.updateArticle, params, 'put').then(() => {
         message.success('更新成功');
         setIsModalOpen(false);
       });

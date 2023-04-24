@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Typography, Space, Popconfirm } from 'antd';
 import { server, api } from '@/request/server';
 import EditEnum from '@/pages/EnumerationManagement/commponents/EditEnum';
+import AddEnum from '@/pages/EnumerationManagement/commponents/AddEnum';
 const EnumTable: React.FC<{
   id: string | undefined;
   data: any[];
@@ -10,7 +11,14 @@ const EnumTable: React.FC<{
   getEnumList: () => Promise<void>;
 }> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddEnum, setIsAddEnum] = useState(false);
   const [EditEnumType, setEditEnumType] = useState('add');
+  const [enumData, setEnumData] = useState({
+    name: '',
+    value: '',
+    type: '',
+    description: '',
+  });
   const addEnumType = () => {
     setEditEnumType('add');
     setIsModalOpen(true);
@@ -20,7 +28,9 @@ const EnumTable: React.FC<{
     setIsModalOpen(true);
   };
   const editEnum = (record: any) => {
-    console.log(record);
+    setEnumData(record);
+    setEditEnumType('edit');
+    setIsAddEnum(true);
   };
   const deleteEnum = async (record: any) => {
     let { code } = await server(api.deleteEnum, { id: record.id }, 'DELETE');
@@ -37,7 +47,11 @@ const EnumTable: React.FC<{
 
   const closeEdit = async () => {
     setIsModalOpen(false);
+    setIsAddEnum(false);
     await props.getEnumList();
+  };
+  const addEnum = async () => {
+    setIsAddEnum(true);
   };
   const cancel = () => {};
   const coumns = [
@@ -109,9 +123,19 @@ const EnumTable: React.FC<{
           </Button>
         </Popconfirm>
 
-        <Button type="primary">添加枚举</Button>
+        <Button type="primary" onClick={addEnum}>
+          添加枚举
+        </Button>
       </Space>
       <Table dataSource={props.data} columns={coumns} rowKey="id" />
+
+      <AddEnum
+        type={EditEnumType}
+        tabsData={enumData}
+        isModalOpen={isAddEnum}
+        close={closeEdit}
+      ></AddEnum>
+
       <EditEnum
         type={EditEnumType}
         tabsData={props.tabsData}
