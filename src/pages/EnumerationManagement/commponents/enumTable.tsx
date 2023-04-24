@@ -6,7 +6,7 @@ import AddEnum from '@/pages/EnumerationManagement/commponents/AddEnum';
 const EnumTable: React.FC<{
   id: string | undefined;
   data: any[];
-  getEnum: (type: string) => Promise<void>;
+  getEnum: () => Promise<void>;
   tabsData: any;
   getEnumList: () => Promise<void>;
 }> = (props) => {
@@ -17,6 +17,7 @@ const EnumTable: React.FC<{
     name: '',
     value: '',
     type: '',
+    type_id: '',
     description: '',
   });
   const addEnumType = () => {
@@ -35,7 +36,7 @@ const EnumTable: React.FC<{
   const deleteEnum = async (record: any) => {
     let { code } = await server(api.deleteEnum, { id: record.id }, 'DELETE');
     if (code === 200) {
-      await props.getEnum(props.id || '');
+      await props.getEnum();
     }
   };
   const deleteEnumType = async () => {
@@ -44,13 +45,21 @@ const EnumTable: React.FC<{
       await props.getEnumList();
     }
   };
-
+  const closeAddEnum = async () => {
+    setIsAddEnum(false);
+    await props.getEnum();
+  };
   const closeEdit = async () => {
     setIsModalOpen(false);
-    setIsAddEnum(false);
+
     await props.getEnumList();
   };
   const addEnum = async () => {
+    setEnumData({
+      ...enumData,
+      name: props.tabsData.name || '',
+      type_id: props.id || '',
+    });
     setIsAddEnum(true);
   };
   const cancel = () => {};
@@ -100,7 +109,7 @@ const EnumTable: React.FC<{
     },
   ];
   useEffect(() => {
-    console.log('更新了', props.tabsData);
+    // console.log('更新了', props.tabsData);
   }, [props.id]);
   return (
     <div>
@@ -133,7 +142,7 @@ const EnumTable: React.FC<{
         type={EditEnumType}
         tabsData={enumData}
         isModalOpen={isAddEnum}
-        close={closeEdit}
+        close={closeAddEnum}
       ></AddEnum>
 
       <EditEnum

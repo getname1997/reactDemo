@@ -14,6 +14,7 @@ const EditEnum: React.FC<{
     name: '',
     value: '',
     type: '',
+    type_id: '',
     description: '',
   });
   const handleOk = () => {
@@ -29,7 +30,13 @@ const EditEnum: React.FC<{
       }, 100);
     } else {
       setModalTitle('添加枚举');
-      setFormData({ name: '', value: '', type: '', description: '' });
+      setFormData({
+        name: '',
+        value: '',
+        type: props.tabsData.name,
+        description: '',
+        type_id: props.tabsData.type_id,
+      });
       setTimeout(() => {
         form.resetFields();
       }, 100);
@@ -40,12 +47,18 @@ const EditEnum: React.FC<{
     let res;
     switch (props.type) {
       case 'add':
-        res = await server(api.addEnum, values, 'post');
+        params = {
+          ...values,
+          type_id: props.tabsData.type_id,
+          id: props.tabsData.id,
+        };
+        res = await server(api.addEnum, params, 'post');
         console.log(res);
         break;
       case 'edit':
         params = {
           ...values,
+          type_id: props.tabsData.type_id,
           id: props.tabsData.id,
         };
         res = await server(api.updateEnum, params, 'put');

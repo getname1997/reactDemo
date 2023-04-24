@@ -12,8 +12,8 @@ const EnumerationManagement: React.FC = () => {
     name: '',
   });
   const [activeKey, setActiveKey] = useState('');
-  const getEnum = async () => {
-    let res = await server(api.getEnum, { id: activeKey });
+  const getEnum = async (key?: string) => {
+    let res = await server(api.getEnum, { id: key ? key : activeKey });
     if (res.code === 200) {
       setTableData(res.data);
     }
@@ -31,7 +31,7 @@ const EnumerationManagement: React.FC = () => {
           name: item.name,
         };
       });
-      await getEnum();
+      await getEnum(data[0].id);
       if (activeKey === '') {
         setActiveKey(data[0].id);
         setTabsData(data[0]);
@@ -45,12 +45,13 @@ const EnumerationManagement: React.FC = () => {
   };
 
   const onTabClick = async (key: string) => {
+    console.log(key, '45454545');
     setActiveKey(key);
     setTableId(key);
     setTabsData(
       EnumList?.find((item) => item.key === key) || { key: '', name: '' },
     );
-    await getEnum();
+    await getEnum(key);
   };
   useEffect(() => {
     getEnumList();
